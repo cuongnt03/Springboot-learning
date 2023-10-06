@@ -4,10 +4,9 @@ import com.example.demospringbootarchitecture.model.Employee;
 import com.example.demospringbootarchitecture.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
     @RequestMapping("/api/employees")
@@ -22,6 +21,18 @@ public class EmployeeController {
     //build create employee REST API
     @PostMapping()
     public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
-        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
+        return new ResponseEntity<>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
+    }
+
+    // build get all employees REST API
+    @GetMapping
+    public List<Employee> getAllEmployee() {
+        return employeeService.getAllEmployee();
+    }
+
+    // https:/localhost:8080/api/employees/{id}
+    @GetMapping("{id}")
+    public ResponseEntity<Employee> findEmployee(@PathVariable("id") long employeeId) {
+        return new ResponseEntity<>(employeeService.findEmployee(employeeId), HttpStatus.OK);
     }
 }
